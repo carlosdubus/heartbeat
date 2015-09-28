@@ -27,7 +27,7 @@ public class HBReceiver {
 	}
 
 	void notifyFailure() {
-		System.out.println("Process is dead");
+		System.out.println("Server is dead");
 	}
 
 	DatagramSocket createSocket() throws Exception {
