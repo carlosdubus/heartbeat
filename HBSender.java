@@ -1,18 +1,17 @@
 import java.net.*;
 
 public class HBSender extends Thread {
-  
   int sendingInterval;
   String ip;
   int port;
 
-  public HBSender(String ip, int port, int sendingInterval){
+  public HBSender(String ip, int port, int sendingInterval) {
     this.ip = ip;
     this.port = port;
     this.sendingInterval = sendingInterval;
   }
 
-  public void run(){
+  public void run() {
     DatagramSocket ds = null;
     try {
       ds = new DatagramSocket();
@@ -26,11 +25,11 @@ public class HBSender extends Thread {
         System.out.print(".");
         Thread.sleep(sendingInterval);
       }
-    }catch(Exception e){
+    } catch (Exception e) {
       System.out.println("HBSender dead");
       e.printStackTrace();
-    }finally {
-      if(ds != null)
+    } finally {
+      if (ds != null)
         ds.close();
     }
   }
