@@ -19,7 +19,6 @@ public class Client {
     while (count<10) {
       stream = input.readLine();
       if(stream == null){
-        
         System.out.println("Reconnecting...");
         Thread.sleep(1000);
 
