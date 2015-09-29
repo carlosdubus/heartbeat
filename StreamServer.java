@@ -8,10 +8,10 @@ import java.util.Random;
 public class StreamServer {
 
   int port;
-  HBSender hbSender;
+  HeartbeatSender hbSender;
   long startTime;
 
-  public StreamServer(int port, HBSender hbSender) {
+  public StreamServer(int port, HeartbeatSender hbSender) {
     this.port = port;
     this.hbSender = hbSender;
   }
@@ -65,7 +65,7 @@ public class StreamServer {
   }
 
   public static void main(String[] args) throws Exception {
-    HBSender hs = new HBSender("127.0.0.1", 3000, 1000);
+    HeartbeatSender hs = new HeartbeatSender("127.0.0.1", 1234, 1000);
     hs.start();
     System.out.println("Waiting for client...");
     StreamServer ss = new StreamServer(3000, hs);
