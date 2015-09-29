@@ -17,6 +17,7 @@ public class StreamServer {
   }
 
   public void run() throws Exception {
+    this.hbSender.start();
     ServerSocket listener = new ServerSocket(port);
     try {
       Socket socket = listener.accept();
@@ -41,11 +42,10 @@ public class StreamServer {
     startTime = System.currentTimeMillis();
     try {
       PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-      int count = 0;
+      StreamGenerator sg = new StreamGenerator(0);
 
       while (true) {
-        out.println(count);
-        count ++;
+        out.println(sg.nextData());
         Thread.sleep(1000);
         raiseRandomException();
       }
@@ -60,15 +60,11 @@ public class StreamServer {
   long randInt(int min, int max) {
     Random rand = new Random();
     int randomNum = rand.nextInt((max - min) + 1) + min;
-
     return randomNum;
   }
 
   public static void main(String[] args) throws Exception {
-    HeartbeatSender hs = new HeartbeatSender("127.0.0.1", 1234, 1000);
-    hs.start();
-    System.out.println("Waiting for client...");
-    StreamServer ss = new StreamServer(3000, hs);
+    StreamServer ss = new StreamServer(3000, new HeartbeatSender("127.0.0.1", 1234, 1000));
     ss.run();
   }
 }
