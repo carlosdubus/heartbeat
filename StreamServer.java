@@ -10,10 +10,16 @@ public class StreamServer {
     int port;
     HeartbeatSender hbSender;
     long startTime;
+    Checkpointer checkpointer;
 
     public StreamServer(int port, HeartbeatSender hbSender) {
         this.port = port;
         this.hbSender = hbSender;
+        checkpointer = new Checkpointer();
+    }
+
+    public static void printData(int data){
+        System.out.println("data: " + data);
     }
 
     public void run() throws Exception {
@@ -76,22 +82,27 @@ public class StreamServer {
     class ConnectionHandler implements Runnable {
         Socket socket;
         long clientStartTime;
-        public ConnectionHandler(Socket socket) {
+        public ConnectionHandler(Socket socket){
             this.socket = socket;
+            System.out.println(socket);
+            checkpointer.addClient(socket.toString());
         }
         public void run() {
             clientStartTime = System.currentTimeMillis();
+            StreamGenerator sg = new StreamGenerator(checkpointer.getClientLastState(socket.toString()));
             try {
                 PrintWriter out = new PrintWriter(this.socket.getOutputStream(), true);
-                StreamGenerator sg = new StreamGenerator(0);
 
                 while (true) {
                     out.println(sg.nextData());
+                    checkpointer.updateState(socket.toString(),sg.getCurrentData());
                     Thread.sleep(1000);
                 }
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
-                System.err.println("Connection [" + socket.getInetAddress() + "] uptime: " + uptime());
+                System.err.println("Connection [" + socket.getInetAddress() + "] failled.");
+                System.err.println("    Uptime: " + uptime());
+                System.err.println("    Stream current state: " + sg.getCurrentData());
             }
         }
         public long uptime() {
