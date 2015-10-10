@@ -10,4 +10,8 @@ public class StreamGenerator {
         data += 1;
         return currentData;
     }
+
+    public int getCurrentData(){
+      return data;
+    }
 }
