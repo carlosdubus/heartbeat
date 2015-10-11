@@ -18,10 +18,6 @@ public class StreamServer {
         checkpointer = new Checkpointer();
     }
 
-    public static void printData(int data){
-        System.out.println("data: " + data);
-    }
-
     public void run() throws Exception {
         startTime = System.currentTimeMillis();
         this.hbSender.start();
