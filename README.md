@@ -18,7 +18,7 @@ In the second terminal, run the FaultMonitor:
 java FaultMonitor
 ```
 
-In the third terminal, run a Client:
+In the third terminal, run a Client (you can run multiple clients each in one terminal):
 ```
 java Client
 ```
