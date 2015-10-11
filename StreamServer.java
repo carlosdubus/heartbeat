@@ -55,6 +55,7 @@ public class StreamServer {
     public static void main(String[] args) throws Exception {
         StreamServer ss = new StreamServer(3000, new HeartbeatSender("127.0.0.1", 1234, 1000));
         if(args[0].equals("passive")) {
+            System.out.print("Passive server is on");
             ss.runOnDemand();
         }
         else{
