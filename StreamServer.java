@@ -92,6 +92,7 @@ public class StreamServer {
                 while (true) {
                     out.println(sg.nextData());
                     checkpointer.updateState(socket.toString(),sg.getCurrentData());
+                    checkpointer.persist();
                     Thread.sleep(1000);
                 }
             } catch (Exception ex) {

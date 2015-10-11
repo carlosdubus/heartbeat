@@ -25,7 +25,6 @@ public class Checkpointer {
     public void updateState(String clientStringIdentifier, int currentStreamData){
         try{
             clientsStates.put(clientStringIdentifier, currentStreamData);
-            persist();
         }catch(Exception e){
             System.err.println(e);
         }
