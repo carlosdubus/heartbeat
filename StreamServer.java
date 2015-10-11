@@ -23,6 +23,7 @@ public class StreamServer {
         startTime = System.currentTimeMillis();
         this.hbSender.start();
         ServerSocket serverSocket = new ServerSocket(port);
+        checkpointer.read();
         try {
             new Thread(new UnkonwRandomFault(this)).start();
             while(true){
