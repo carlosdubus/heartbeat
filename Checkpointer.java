@@ -50,6 +50,7 @@ public class Checkpointer {
         oos.close();
     }
 
+    @SuppressWarnings("unchecked")
     public void read() throws Exception {
         FileInputStream fis = new FileInputStream("clients_states.data");
         ObjectInputStream ois = new ObjectInputStream(fis);
