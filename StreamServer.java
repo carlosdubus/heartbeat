@@ -4,6 +4,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 import java.util.Random;
+import java.net.*;
 
 public class StreamServer {
 
@@ -38,13 +39,27 @@ public class StreamServer {
         }
     }
 
+    public void runOnDemand() throws Exception{
+        int packetSize = 2;
+        DatagramSocket socket = new DatagramSocket(3001);
+        byte[] buf = new byte[packetSize];
+        DatagramPacket dp = new DatagramPacket(buf, packetSize);
+        socket.receive(dp);
+        run();
+    }
+
     public long uptime() {
         return System.currentTimeMillis() - this.startTime;
     }
 
     public static void main(String[] args) throws Exception {
         StreamServer ss = new StreamServer(3000, new HeartbeatSender("127.0.0.1", 1234, 1000));
-        ss.run();
+        if(args[0].equals("passive")) {
+            ss.runOnDemand();
+        }
+        else{
+            ss.run();
+        }
     }
 
     class UnkonwRandomFault implements Runnable {
